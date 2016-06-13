@@ -4,12 +4,19 @@
 	using NUnit.Framework;
 	using System.Collections.Generic;
 	using System;
+	using VO;
 
 	[TestFixture]
-    public class AuditTest
-    {
-		private static List<AuditEvidenceCollection> evidencesTest = new List<AuditEvidenceCollection>();
-		private static AuditPersistenceTest auditPersistence = new AuditPersistenceTest();
+	public class AuditTest
+	{
+		private static AuditVO _auditVO = null;
+
+		[OneTimeSetUp]
+		public void SetUp()
+		{
+			// Set up IAuditPersistence
+			AuditCore.ConfigureAuditPersistence(new AuditPersistenceTest());
+		}
 
 		[Test]
 		public void SaveAudit()
@@ -25,40 +32,47 @@
 			myDog.Save();
 
 			// Assert
-			Assert.AreEqual(myDog, evidencesTest.First().First().Data);
+			Assert.AreEqual(myDog, _auditVO.Events[0].Data);
 		}
 
 
-		internal class Dog : Audit
+		public class Dog : Audit
 		{
 			public string Name { get; set; }
 			public string Owner { get; set; }
 
-			public Dog()
-				: base(auditPersistence)
-			{ }
-
 			public void Save()
 			{
+				// Validate Owner
+				ValidateOwner();
+				this.AuditAddEvent("checkOwner", this.Owner, DateTime.Now);
+
 				// Save in database
+				SaveSQL();
+				this.AuditAddEvent("save", this, DateTime.Now);
 
-
-				// Audit
-				this.AddAuditEvidence(GetEvidenceSave());
-				this.SaveAudit();
+				// Audit	
+				SaveAudit("saveOperation");
 			}
 
-			private AuditEvidence GetEvidenceSave()
+			private void SaveAudit(string operation)
 			{
-				return new AuditEvidence(Guid.NewGuid().ToString(), "userTest", this, "save", DateTime.Now);
+				this.AuditSetAuthor("customAuthor");
+				this.AuditSetOperation(operation);
+				this.AuditSetDate(DateTime.Now);
+
+				this.AuditSave();
 			}
+
+			private void SaveSQL() { }
+			private void ValidateOwner() { }
 		}
 
 		internal class AuditPersistenceTest : IAuditPersistense
 		{
-			public void SaveAudit(AuditEvidenceCollection evidences)
+			public void SaveAudit(AuditVO auditVO)
 			{
-				evidencesTest.Add(evidences);
+				_auditVO = auditVO;
 			}
 		}
 	}

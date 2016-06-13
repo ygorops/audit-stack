@@ -12,36 +12,36 @@
 			this._auditVO = new AuditVO();
 		}
 
-		protected Audit SetAuthor(string author)
+		protected Audit AuditSetAuthor(string author)
 		{
 			this._auditVO.Author = author;
 			return this;
 		}
 
-		protected Audit SetOperation(string operation)
+		protected Audit AuditSetOperation(string operation)
 		{
 			this._auditVO.Operation = operation;
 			return this;
 		}
 
-		protected Audit SetDate(DateTime date)
+		protected Audit AuditSetDate(DateTime date)
 		{
 			this._auditVO.Date = date;
 			return this;
 		}
 
-		protected Audit AddEvent(AuditEventVO @event)
+		protected Audit AuditAddEvent(AuditEventVO @event)
 		{
 			this._auditVO.Events.Add(@event);
 			return this;
 		}
 
-		protected Audit AddEvent(string @event, object data, DateTime date)
+		protected Audit AuditAddEvent(string @event, object data, DateTime date)
 		{
-			return this.AddEvent(new AuditEventVO() { Event = @event, Data = data, Date = date });
+			return this.AuditAddEvent(new AuditEventVO() { Event = @event, Data = data, Date = date });
 		}
 
-		protected void SaveAudit()
+		protected void AuditSave()
 		{
 			// Validate AuditVO
 			AuditCore.AuditValidation.Validate(this._auditVO);

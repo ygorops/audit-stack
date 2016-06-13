@@ -3,6 +3,6 @@
 
 	public interface IAuditPersistense
 	{
-		void SaveAudit(VO.AuditVO evidences);
+		void SaveAudit(VO.AuditVO auditVO);
 	}
 }
