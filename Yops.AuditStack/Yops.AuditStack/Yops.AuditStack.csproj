@@ -43,6 +43,7 @@
     <Compile Include="Audit.cs" />
     <Compile Include="IAuditPersistense.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Validation\AuditVOValidation.cs" />
     <Compile Include="VO\AuditEventVO.cs" />
     <Compile Include="VO\AuditVO.cs" />
   </ItemGroup>
