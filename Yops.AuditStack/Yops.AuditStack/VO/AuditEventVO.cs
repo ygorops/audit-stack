@@ -1,15 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Yops.AuditStack.VO
+﻿namespace Yops.AuditStack.VO
 {
+	using System;
+	using System.Collections.Generic;
+
 	public class AuditEventVO
 	{
 		public string Event { get; set; }
 		public object Data { get; set; }
 		public DateTime Date { get; set; }
+	}
+
+	public class AuditEventVOCollection : List<AuditEventVO>
+	{
+
 	}
 }
