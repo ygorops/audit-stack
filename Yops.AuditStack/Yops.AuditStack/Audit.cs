@@ -14,6 +14,7 @@
 			this._auditVO = new AuditVO();
 		}
 
+		#region Setting parameters
 		protected void AuditSetId(string id)
 		{
 			this._auditVO.Id = id;
@@ -43,12 +44,22 @@
 		{
 			this.AuditAddEvent(new AuditEventVO() { Event = @event, Data = data, Date = date });
 		}
+		#endregion
+		public static AuditVO AuditGet(string id)
+		{
+			return AuditCore.AuditPersistence.Get(id);
+		}
 
+		public static Task<AuditVO> AuditGetAsync(string id, CancellationToken cancellationToken)
+		{
+			return AuditCore.AuditPersistence.GetAsync(id, cancellationToken);
+		}
+
+		#region save methods
 		protected void AuditSave()
 		{
 			// Validate AuditVO
 			AuditCore.AuditValidation.Validate(this._auditVO);
-
 
 			// Save AuditVO
 			AuditCore.AuditPersistence.SaveAudit(this._auditVO);
@@ -59,9 +70,9 @@
 			// Validate AuditVO
 			AuditCore.AuditValidation.Validate(this._auditVO);
 
-
 			// Save AuditVO
 			await AuditCore.AuditPersistence.SaveAuditAsync(this._auditVO, cancellationToken);
 		}
-    }
+		#endregion
+	}
 }

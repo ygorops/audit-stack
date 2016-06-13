@@ -1,6 +1,5 @@
 ﻿namespace Yops.AuditStack.Test
 {
-	using System.Linq;
 	using NUnit.Framework;
 	using System.Collections.Generic;
 	using System;
@@ -21,6 +20,7 @@
 		}
 
 		[Test]
+		[Order(0)]
 		public void SaveAudit()
 		{
 			// Arrange
@@ -38,6 +38,7 @@
 		}
 
 		[Test]
+		[Order(1)]
 		public async Task SaveAuditAsync()
 		{
 			// Arrange
@@ -55,6 +56,34 @@
 			Assert.AreEqual(myDog, _auditVO.Events[1].Data);
 		}
 
+		[Test]
+		[Order(2)]
+		public void GetAuditById()
+		{
+			// Arrange
+			string id = _auditVO.Id;
+
+			// Act
+			AuditVO vo = Dog.AuditGet(id);
+
+			// Assert
+			Assert.AreEqual(vo, _auditVO);
+		}
+
+		[Test]
+		[Order(3)]
+		public async Task GetAuditByIdAsync()
+		{
+			// Arrange
+			string id = _auditVO.Id;
+			CancellationTokenSource token = new CancellationTokenSource(100);
+
+			// Act
+			AuditVO vo = await Dog.AuditGetAsync(id, token.Token);
+
+			// Assert
+			Assert.AreEqual(vo, _auditVO);
+		}
 
 		public class Dog : Audit
 		{
@@ -88,7 +117,7 @@
 				// Audit	
 				await SaveAuditAsync("saveOperation", CancellationToken.None);
 			}
-			
+
 			#region SaveAudit
 			private void SaveAudit(string operation)
 			{
@@ -119,12 +148,19 @@
 		{
 			public AuditVO Get(string id)
 			{
-				throw new NotImplementedException();
+				if (_auditVO.Id.Equals(id))
+					return _auditVO;
+				return null;
 			}
 
 			public Task<AuditVO> GetAsync(string id, CancellationToken cancellationToken)
 			{
-				throw new NotImplementedException();
+				return Task.Factory.StartNew<AuditVO>(() =>
+				{
+					if (_auditVO.Id.Equals(id))
+						return _auditVO;
+					return null;
+				});
 			}
 
 			public List<AuditVO> GetByAuthor(string author, int page, int size)
