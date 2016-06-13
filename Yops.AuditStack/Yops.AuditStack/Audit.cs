@@ -5,12 +5,10 @@
 
 	public class Audit
 	{
-		private IAuditPersistense _persistence;
 		private AuditVO _auditVO;
 
-		public Audit(IAuditPersistense persistenceConfiguration)
+		public Audit()
 		{
-			this._persistence = persistenceConfiguration;
 			this._auditVO = new AuditVO();
 		}
 
@@ -45,7 +43,12 @@
 
 		protected void SaveAudit()
 		{
-			_persistence.SaveAudit(this._auditVO);
+			// Validate AuditVO
+			AuditCore.AuditValidation.Validate(this._auditVO);
+
+
+			// Save AuditVO
+			AuditCore.AuditPersistence.SaveAudit(this._auditVO);
 		}
     }
 }
