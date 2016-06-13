@@ -1,6 +1,8 @@
 ﻿namespace Yops.AuditStack
 {
 	using System;
+	using System.Threading;
+	using System.Threading.Tasks;
 	using VO;
 
 	public class Audit
@@ -50,6 +52,16 @@
 
 			// Save AuditVO
 			AuditCore.AuditPersistence.SaveAudit(this._auditVO);
+		}
+
+		protected async Task AuditSaveAsync(CancellationToken cancellationToken)
+		{
+			// Validate AuditVO
+			AuditCore.AuditValidation.Validate(this._auditVO);
+
+
+			// Save AuditVO
+			await AuditCore.AuditPersistence.SaveAuditAsync(this._auditVO, cancellationToken);
 		}
     }
 }
