@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Yops.AuditStack
+﻿namespace Yops.AuditStack
 {
-	public interface IAuditPersistense<T>
+	using System.Collections.Generic;
+
+	public interface IAuditPersistense
 	{
-		void SaveAudit(T data);
+		void SaveAudit(AuditEvidenceCollection evidences);
 	}
 }

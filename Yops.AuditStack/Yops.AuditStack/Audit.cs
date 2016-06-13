@@ -1,17 +1,26 @@
 ﻿namespace Yops.AuditStack
 {
-    public class Audit<T>
-    {
-		private IAuditPersistense<T> _persistence;
+	using System.Collections.Generic;
 
-		public Audit(IAuditPersistense<T> persistenceConfiguration)
+	public class Audit
+    {
+		private IAuditPersistense _persistence;
+		private List<AuditEvidence> _evidences;
+
+		public Audit(IAuditPersistense persistenceConfiguration)
 		{
 			this._persistence = persistenceConfiguration;
+			this._evidences = new List<AuditEvidence>();
 		}
 
-		protected void SaveAudit(T data)
+		protected void AddAuditEvidence(AuditEvidence evidence)
 		{
-			_persistence.SaveAudit(data);
+			this._evidences.Add(evidence);
+		}
+
+		protected void SaveAudit()
+		{
+			_persistence.SaveAudit(_evidences);
 		}
     }
 }

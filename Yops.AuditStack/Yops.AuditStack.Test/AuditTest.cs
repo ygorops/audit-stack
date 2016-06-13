@@ -8,7 +8,7 @@
 	[TestFixture]
     public class AuditTest
     {
-		private static List<Dog> dogsSaved = new List<Dog>();
+		private static List<AuditEvidenceCollection> evidencesTest = new List<AuditEvidenceCollection>();
 		private static AuditPersistenceTest auditPersistence = new AuditPersistenceTest();
 
 		[Test]
@@ -25,11 +25,11 @@
 			myDog.Save();
 
 			// Assert
-			Assert.AreEqual(myDog, dogsSaved.First());
+			Assert.AreEqual(myDog, evidencesTest.First().First().Data);
 		}
 
 
-		internal class Dog : Audit<Dog>
+		internal class Dog : Audit
 		{
 			public string Name { get; set; }
 			public string Owner { get; set; }
@@ -44,15 +44,21 @@
 
 
 				// Audit
-				this.SaveAudit(this);
+				this.AddAuditEvidence(GetEvidenceSave());
+				this.SaveAudit();
+			}
+
+			private AuditEvidence GetEvidenceSave()
+			{
+				return new AuditEvidence(Guid.NewGuid().ToString(), "userTest", this, "save", DateTime.Now);
 			}
 		}
 
-		internal class AuditPersistenceTest : IAuditPersistense<Dog>
+		internal class AuditPersistenceTest : IAuditPersistense
 		{
-			public void SaveAudit(Dog data)
+			public void SaveAudit(AuditEvidenceCollection evidences)
 			{
-				dogsSaved.Add(data);
+				evidencesTest.Add(evidences);
 			}
 		}
 	}
