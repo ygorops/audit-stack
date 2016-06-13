@@ -8,5 +8,10 @@ namespace Yops.AuditStack
 {
 	public class AuditCore
 	{
+		internal static IAuditPersistense AuditPersistence;
+		public static void ConfigureAuditPersistence(IAuditPersistense auditPersistence)
+		{
+			AuditPersistence = auditPersistence;
+		}
 	}
 }
