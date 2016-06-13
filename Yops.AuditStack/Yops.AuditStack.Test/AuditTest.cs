@@ -88,26 +88,28 @@
 				// Audit	
 				await SaveAuditAsync("saveOperation", CancellationToken.None);
 			}
-
+			
+			#region SaveAudit
 			private void SaveAudit(string operation)
 			{
-				this.AuditSetId(Guid.NewGuid().ToString());
-				this.AuditSetAuthor("customAuthor");
-				this.AuditSetOperation(operation);
-				this.AuditSetDate(DateTime.Now);
-
+				SetAuditParameters(operation);
 				this.AuditSave();
 			}
 
 			private async Task SaveAuditAsync(string operation, CancellationToken cancellationToken)
 			{
+				SetAuditParameters(operation);
+				await this.AuditSaveAsync(cancellationToken);
+			}
+
+			private void SetAuditParameters(string operation)
+			{
 				this.AuditSetId(Guid.NewGuid().ToString());
 				this.AuditSetAuthor("customAuthor");
 				this.AuditSetOperation(operation);
 				this.AuditSetDate(DateTime.Now);
-
-				await this.AuditSaveAsync(cancellationToken);
 			}
+			#endregion
 
 			private void SaveSQL() { }
 			private void ValidateOwner() { }
