@@ -3,6 +3,7 @@
 	using NUnit.Framework;
 	using System.Collections.Generic;
 	using System;
+	using System.Linq;
 	using VO;
 	using System.Threading;
 	using System.Threading.Tasks;
@@ -10,7 +11,7 @@
 	[TestFixture]
 	public class AuditTest
 	{
-		private static AuditVO _auditVO = null;
+		private static List<AuditVO> _audits = new List<AuditVO>();
 
 		[OneTimeSetUp]
 		public void SetUp()
@@ -34,7 +35,7 @@
 			myDog.Save();
 
 			// Assert
-			Assert.AreEqual(myDog, _auditVO.Events[1].Data);
+			Assert.AreEqual(myDog, _audits.First().Events[1].Data);
 		}
 
 		[Test]
@@ -47,13 +48,13 @@
 				Name = "Snoop",
 				Owner = "Charlie Brown"
 			};
-			CancellationTokenSource tokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(1));
+			CancellationTokenSource tokenSource = new CancellationTokenSource(100);
 
 			// Act
 			await myDog.SaveAsync(tokenSource.Token);
 
 			// Assert
-			Assert.AreEqual(myDog, _auditVO.Events[1].Data);
+			Assert.AreEqual(myDog, _audits[1].Events[1].Data);
 		}
 
 		[Test]
@@ -61,13 +62,13 @@
 		public void GetAuditById()
 		{
 			// Arrange
-			string id = _auditVO.Id;
+			string id = _audits[0].Id;
 
 			// Act
 			AuditVO vo = Dog.AuditGet(id);
 
 			// Assert
-			Assert.AreEqual(vo, _auditVO);
+			Assert.AreEqual(vo, _audits[0]);
 		}
 
 		[Test]
@@ -75,14 +76,25 @@
 		public async Task GetAuditByIdAsync()
 		{
 			// Arrange
-			string id = _auditVO.Id;
+			string id = _audits[0].Id;
 			CancellationTokenSource token = new CancellationTokenSource(100);
 
 			// Act
 			AuditVO vo = await Dog.AuditGetAsync(id, token.Token);
 
 			// Assert
-			Assert.AreEqual(vo, _auditVO);
+			Assert.AreEqual(vo, _audits[0]);
+		}
+
+		[Test]
+		[Order(4)]
+		public void GetAuditByAuthor()
+		{
+			// Arrange
+
+			// Act
+
+			// Assert
 		}
 
 		public class Dog : Audit
@@ -148,18 +160,14 @@
 		{
 			public AuditVO Get(string id)
 			{
-				if (_auditVO.Id.Equals(id))
-					return _auditVO;
-				return null;
+				return _audits.Find(a => a.Id.Equals(id));
 			}
 
 			public Task<AuditVO> GetAsync(string id, CancellationToken cancellationToken)
 			{
 				return Task.Factory.StartNew<AuditVO>(() =>
 				{
-					if (_auditVO.Id.Equals(id))
-						return _auditVO;
-					return null;
+					return _audits.Find(a => a.Id.Equals(id));
 				});
 			}
 
@@ -185,12 +193,12 @@
 
 			public void SaveAudit(AuditVO auditVO)
 			{
-				_auditVO = auditVO;
+				_audits.Add(auditVO);
 			}
 
 			public async Task SaveAuditAsync(AuditVO auditVO, CancellationToken cancellationToken)
 			{
-				await Task.Factory.StartNew(() => { _auditVO = auditVO; });
+				await Task.Factory.StartNew(() => { _audits.Add(auditVO); });
 			}
 		}
 	}
