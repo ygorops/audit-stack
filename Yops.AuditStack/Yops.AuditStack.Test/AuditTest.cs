@@ -32,7 +32,7 @@
 			myDog.Save();
 
 			// Assert
-			Assert.AreEqual(myDog, _auditVO.Events[0].Data);
+			Assert.AreEqual(myDog, _auditVO.Events[1].Data);
 		}
 
 
@@ -57,6 +57,7 @@
 
 			private void SaveAudit(string operation)
 			{
+				this.AuditSetId(Guid.NewGuid().ToString());
 				this.AuditSetAuthor("customAuthor");
 				this.AuditSetOperation(operation);
 				this.AuditSetDate(DateTime.Now);

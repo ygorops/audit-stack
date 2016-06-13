@@ -12,33 +12,34 @@
 			this._auditVO = new AuditVO();
 		}
 
-		protected Audit AuditSetAuthor(string author)
+		protected void AuditSetId(string id)
+		{
+			this._auditVO.Id = id;
+		}
+
+		protected void AuditSetAuthor(string author)
 		{
 			this._auditVO.Author = author;
-			return this;
 		}
 
-		protected Audit AuditSetOperation(string operation)
+		protected void AuditSetOperation(string operation)
 		{
 			this._auditVO.Operation = operation;
-			return this;
 		}
 
-		protected Audit AuditSetDate(DateTime date)
+		protected void AuditSetDate(DateTime date)
 		{
 			this._auditVO.Date = date;
-			return this;
 		}
 
-		protected Audit AuditAddEvent(AuditEventVO @event)
+		protected void AuditAddEvent(AuditEventVO @event)
 		{
 			this._auditVO.Events.Add(@event);
-			return this;
 		}
 
-		protected Audit AuditAddEvent(string @event, object data, DateTime date)
+		protected void AuditAddEvent(string @event, object data, DateTime date)
 		{
-			return this.AuditAddEvent(new AuditEventVO() { Event = @event, Data = data, Date = date });
+			this.AuditAddEvent(new AuditEventVO() { Event = @event, Data = data, Date = date });
 		}
 
 		protected void AuditSave()
