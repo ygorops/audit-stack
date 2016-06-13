@@ -117,6 +117,36 @@
 
 		internal class AuditPersistenceTest : IAuditPersistense
 		{
+			public AuditVO Get(string id)
+			{
+				throw new NotImplementedException();
+			}
+
+			public Task<AuditVO> GetAsync(string id, CancellationToken cancellationToken)
+			{
+				throw new NotImplementedException();
+			}
+
+			public List<AuditVO> GetByAuthor(string author, int page, int size)
+			{
+				throw new NotImplementedException();
+			}
+
+			public Task<List<AuditVO>> GetByAuthorAsync(string author, int page, int size, CancellationToken cancellationToken)
+			{
+				throw new NotImplementedException();
+			}
+
+			public List<AuditVO> GetByOperation(string operation, int page, int size)
+			{
+				throw new NotImplementedException();
+			}
+
+			public Task<List<AuditVO>> GetByOperationAsync(string operation, int page, int size, CancellationToken cancellationToken)
+			{
+				throw new NotImplementedException();
+			}
+
 			public void SaveAudit(AuditVO auditVO)
 			{
 				_auditVO = auditVO;
