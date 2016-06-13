@@ -105,6 +105,25 @@
 			Assert.AreEqual(auditList[1].Author, author);
 		}
 
+		[Test]
+		[Order(5)]
+		public async Task GetAuditByAuthorAsync()
+		{
+			// Arrange
+			string author = "testAuthor";
+			int page = 1;
+			int size = 2;
+			CancellationTokenSource cancellationToken = new CancellationTokenSource(100);
+
+			// Act
+			List<AuditVO> auditList = await Dog.AuditGetByAuthorAsync(author, page, size, cancellationToken.Token);
+
+			// Assert
+			Assert.IsNotNull(auditList);
+			Assert.AreEqual(auditList[0].Author, author);
+			Assert.AreEqual(auditList[1].Author, author);
+		}
+
 		public class Dog : Audit
 		{
 			public string Name { get; set; }
@@ -189,7 +208,7 @@
 
 			public Task<List<AuditVO>> GetByAuthorAsync(string author, int page, int size, CancellationToken cancellationToken)
 			{
-				throw new NotImplementedException();
+				return Task.Factory.StartNew(() => GetByAuthor(author, page, size), cancellationToken);
 			}
 
 			public List<AuditVO> GetByOperation(string operation, int page, int size)
