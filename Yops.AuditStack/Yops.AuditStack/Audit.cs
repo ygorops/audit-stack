@@ -1,6 +1,7 @@
 ﻿namespace Yops.AuditStack
 {
 	using System;
+	using System.Collections.Generic;
 	using System.Threading;
 	using System.Threading.Tasks;
 	using VO;
@@ -45,6 +46,8 @@
 			this.AuditAddEvent(new AuditEventVO() { Event = @event, Data = data, Date = date });
 		}
 		#endregion
+
+		#region Get methods
 		public static AuditVO AuditGet(string id)
 		{
 			return AuditCore.AuditPersistence.Get(id);
@@ -54,6 +57,17 @@
 		{
 			return AuditCore.AuditPersistence.GetAsync(id, cancellationToken);
 		}
+
+		public static List<AuditVO> AuditGetByAuthor(string author, int page, int size)
+		{
+			return AuditCore.AuditPersistence.GetByAuthor(author, page, size);
+		}
+
+		public static Task<List<AuditVO>> AuditGetByAuthorAsync(string author, int page, int size, CancellationToken cancellationToken)
+		{
+			return AuditCore.AuditPersistence.GetByAuthorAsync(author, page, size, cancellationToken);
+		}
+		#endregion
 
 		#region save methods
 		protected void AuditSave()

@@ -12,6 +12,7 @@
 	public class AuditTest
 	{
 		private static List<AuditVO> _audits = new List<AuditVO>();
+		private const string AUTHOR_VALUE = "testAuthor";
 
 		[OneTimeSetUp]
 		public void SetUp()
@@ -91,10 +92,17 @@
 		public void GetAuditByAuthor()
 		{
 			// Arrange
+			string author = "testAuthor";
+			int page = 1;
+			int size = 2;
 
 			// Act
+			List<AuditVO> auditList = Dog.AuditGetByAuthor(author, page, size);
 
 			// Assert
+			Assert.IsNotNull(auditList);
+			Assert.AreEqual(auditList[0].Author, author);
+			Assert.AreEqual(auditList[1].Author, author);
 		}
 
 		public class Dog : Audit
@@ -146,7 +154,7 @@
 			private void SetAuditParameters(string operation)
 			{
 				this.AuditSetId(Guid.NewGuid().ToString());
-				this.AuditSetAuthor("customAuthor");
+				this.AuditSetAuthor(AUTHOR_VALUE);
 				this.AuditSetOperation(operation);
 				this.AuditSetDate(DateTime.Now);
 			}
@@ -173,7 +181,10 @@
 
 			public List<AuditVO> GetByAuthor(string author, int page, int size)
 			{
-				throw new NotImplementedException();
+				if (page < 1)
+					throw new ArgumentOutOfRangeException("page", page, "Value cannot be less than one.");
+				
+				return new List<AuditVO>(_audits.Where(a => a.Author.Equals(author)).Skip((page - 1) * size).Take(size));
 			}
 
 			public Task<List<AuditVO>> GetByAuthorAsync(string author, int page, int size, CancellationToken cancellationToken)
