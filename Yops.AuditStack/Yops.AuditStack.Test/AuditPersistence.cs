@@ -38,12 +38,17 @@
 
         public List<AuditVO> GetByOperation(string operation, int page, int size)
         {
-            throw new NotImplementedException();
+            if (page < 1)
+                throw new ArgumentOutOfRangeException("page", page, "Value cannot be less than one.");
+
+            return new List<AuditVO>(AuditStackStorage.GetAll().Where(a => a.Operation.Equals(operation)).Skip((page - 1) * size).Take(size));
         }
 
         public Task<List<AuditVO>> GetByOperationAsync(string operation, int page, int size, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            return Task.Factory.StartNew(() => {
+                return GetByOperation(operation, page, size);
+            });
         }
 
         public void SaveAudit(AuditVO auditVO)
