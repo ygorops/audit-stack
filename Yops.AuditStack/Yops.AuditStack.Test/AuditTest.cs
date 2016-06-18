@@ -23,7 +23,7 @@
 		public void SetUp()
 		{
 			// Set up IAuditPersistence
-			AuditCore.ConfigureAuditPersistence(new AuditPersistenceTest());
+			AuditCore.ConfigureAuditPersistence(new AuditPersistence());
 		}
 
 		[Test]

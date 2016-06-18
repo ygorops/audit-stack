@@ -45,7 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AuditPersistenceTest.cs" />
+    <Compile Include="AuditPersistence.cs" />
     <Compile Include="AuditStackStorage.cs" />
     <Compile Include="AuditTest.cs" />
     <Compile Include="Dog.cs" />

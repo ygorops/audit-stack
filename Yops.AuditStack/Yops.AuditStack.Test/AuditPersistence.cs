@@ -8,7 +8,7 @@
     using System.Threading.Tasks;
     using VO;
 
-    internal class AuditPersistenceTest : IAuditStackPersistense
+    internal class AuditPersistence : IAuditStackPersistense
     {
         public AuditVO Get(string id)
         {
