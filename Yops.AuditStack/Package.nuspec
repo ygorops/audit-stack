@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Yops.AuditStack</id>
+    <version>1.0.0</version>
+    <authors>ygor</authors>
+    <owners>ygor</owners>
+    <licenseUrl>https://opensource.org/licenses/MIT</licenseUrl>
+    <projectUrl>https://github.com/ygorops/audit-stack</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Audit things easily</description>
+    <releaseNotes>First version</releaseNotes>
+    <copyright>Copyright 2016</copyright>
+    <tags>audit stack audit.stack</tags>
+  </metadata>
+</package>
