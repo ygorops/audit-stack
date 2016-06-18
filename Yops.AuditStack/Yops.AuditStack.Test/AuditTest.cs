@@ -183,7 +183,7 @@
 			private void ValidateOwner() { }
 		}
 
-		internal class AuditPersistenceTest : IAuditPersistense
+		internal class AuditPersistenceTest : IAuditStackPersistense
 		{
 			public AuditVO Get(string id)
 			{
