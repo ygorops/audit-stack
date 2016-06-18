@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-
-namespace Yops.AuditStack.Test
+﻿namespace Yops.AuditStack.Test
 {
+    using System;
+    using System.Threading;
+    using System.Threading.Tasks;
+
     public class Dog : Audit
     {
         private const string AUTHOR_VALUE = "testAuthor";
