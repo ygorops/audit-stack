@@ -5,7 +5,7 @@
 	using System.Threading.Tasks;
 	using VO;
 
-	public interface IAuditPersistense
+	public interface IAuditStackPersistense
 	{
 		void SaveAudit(AuditVO auditVO);
 		Task SaveAuditAsync(AuditVO auditVO, CancellationToken cancellationToken);

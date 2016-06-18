@@ -67,6 +67,16 @@
 		{
 			return AuditCore.AuditPersistence.GetByAuthorAsync(author, page, size, cancellationToken);
 		}
+
+        public static List<AuditVO> AuditGetByOperation(string operation, int page, int size)
+        {
+            return AuditCore.AuditPersistence.GetByOperation(operation, page, size);
+        }
+
+        public static Task<List<AuditVO>> AuditGetByOperationAsync(string operation, int page, int size, CancellationToken cancellationToken)
+        {
+            return AuditCore.AuditPersistence.GetByOperationAsync(operation, page, size, cancellationToken);
+        }
 		#endregion
 
 		#region save methods
