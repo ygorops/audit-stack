@@ -4,19 +4,19 @@
 
 First, implement the storage using the IAuditStackPersistence interace. Then, set this class in AuditCore.
 
-```
+```csharp
 AuditCore.ConfigureAuditPersistence(new MyCustomPersistence());
 ```
 
 Extend your class with Audit class. The default constructor in Audit class initialize an AuditVO object.
-```
+```csharp
 public class Dog : Audit
 {
 }
 ```
 
 The AuditVO contains a list of events called AuditEventVOCollection. You can add events before persist the audit.
-```
+```csharp
 public async Task SaveAsync(CancellationToken cancellationToken)
 {
     try
