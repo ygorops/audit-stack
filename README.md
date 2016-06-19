@@ -1,8 +1,16 @@
 # audit-stack
 
-### How to use
+### Install
+To install Yops.AuditStack, run the following command in the Package Manager Console
 
-First, implement the storage using the IAuditStackPersistence interace. Then, set this class in AuditCore.
+```
+Install-Package Yops.AuditStack
+```
+
+For more information... <a href="https://www.nuget.org/packages/Yops.AuditStack/" taget="_blank">NuGet Galley</a>
+
+### How to use
+First, implement the storage using the IAuditStackPersistence inteface. Then, set this class in AuditCore.
 
 ```csharp
 AuditCore.ConfigureAuditPersistence(new MyCustomPersistence());
